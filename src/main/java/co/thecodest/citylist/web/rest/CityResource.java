@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,9 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api")
-@Transactional
+@RequestMapping("/api/cities")
 public class CityResource {
 
     private final Logger log = LoggerFactory.getLogger(CityResource.class);
@@ -42,7 +39,7 @@ public class CityResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new city, or with status {@code 400 (Bad Request)} if the city has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/cities")
+    @PostMapping("")
     public ResponseEntity<City> createCity(@RequestBody City city) throws URISyntaxException {
         log.debug("REST request to save City : {}", city);
         if (city.getId() != null) {
@@ -64,7 +61,7 @@ public class CityResource {
      * or with status {@code 500 (Internal Server Error)} if the city couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/cities/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<City> updateCity(@PathVariable(value = "id", required = false) final Long id, @RequestBody City city)
             throws URISyntaxException {
         log.debug("REST request to update City : {}, {}", id, city);
@@ -90,7 +87,7 @@ public class CityResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cities in body.
      */
-    @GetMapping("/cities")
+    @GetMapping("")
     public Page<City> getAllCities(@PathParam("name") String name, @PathParam("page") int page, @PathParam("size") int size) {
         log.debug("REST request to get a page of Cities");
         return cityService.findAllByName(name, PageRequest.of(page, size));
@@ -102,7 +99,7 @@ public class CityResource {
      * @param id the id of the city to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the city, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/cities/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity getCity(@PathVariable Long id) {
         log.debug("REST request to get City : {}", id);
         Optional<City> city = cityService.findOne(id);
@@ -116,7 +113,7 @@ public class CityResource {
      * @param id the id of the city to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/cities/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCity(@PathVariable Long id) {
         log.debug("REST request to delete City : {}", id);
         cityService.delete(id);

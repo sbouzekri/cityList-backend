@@ -25,7 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("{noop}password").authorities("ROLE_ALLOW_EDIT", "ROLE_ALLOW_DELETE", "ROLE_ALLOW_CREATE");
-        auth.inMemoryAuthentication().withUser("user").password("{noop}password").authorities("ROLE_ALLOW_DELETE", "ROLE_ALLOW_CREATE");
+        auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").authorities("ROLE_ALLOW_EDIT", "ROLE_ALLOW_DELETE", "ROLE_ALLOW_CREATE");
+        auth.inMemoryAuthentication().withUser("user").password("{noop}user").authorities("ROLE_ALLOW_DELETE", "ROLE_ALLOW_CREATE");
     }
 }
